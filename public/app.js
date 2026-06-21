@@ -680,9 +680,15 @@ function renderMessage(item) {
   `;
 }
 
+function renderChatMessageTime(item, className) {
+  if (!item.timestamp) return "";
+  return `<time class="chat-message-time ${className}" datetime="${escapeHtml(item.timestamp)}">${escapeHtml(formatDate(item.timestamp))}</time>`;
+}
+
 function renderAssistantFinalMessage(item) {
   return `
     <article id="${escapeHtml(item.id)}" class="message assistant-final-message" data-role="assistant">
+      ${renderChatMessageTime(item, "assistant-final-time")}
       <div class="message-content markdown-content assistant-final-content">${renderMarkdown(item.content)}</div>
     </article>
   `;
@@ -691,6 +697,7 @@ function renderAssistantFinalMessage(item) {
 function renderUserMessage(item) {
   return `
     <article id="${escapeHtml(item.id)}" class="message user-message" data-role="user">
+      ${renderChatMessageTime(item, "user-message-time")}
       <div class="user-bubble">
         <pre class="message-content user-message-content">${escapeHtml(item.content)}</pre>
       </div>
